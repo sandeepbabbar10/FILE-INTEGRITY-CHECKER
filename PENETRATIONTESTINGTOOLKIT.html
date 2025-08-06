@@ -1,0 +1,78 @@
+import socket
+
+def scan_port(host, port):
+    """Try to connect to a port and return True if open."""
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(0.5)
+        result = s.connect_ex((host, port))
+        s.close()
+        return result == 0
+    except socket.error:
+        return False
+
+def run():
+    """Run port scanning on a target host."""
+    host = input("Enter target host (e.g. 127.0.0.1): ")
+    start_port = int(input("Enter start port: "))
+    end_port = int(input("Enter end port: "))
+
+    print(f"\n🔍 Scanning {host} from port {start_port} to {end_port}...\n")
+    for port in range(start_port, end_port + 1):
+        if scan_port(host, port):
+            print(f"[OPEN] Port {port} is open")
+    print("\n✅ Port scan completed.")
+
+import time
+
+def run():
+    """Simple brute-force password simulation."""
+    target_user = input("Enter username: ")
+    correct_password = "admin123"  # Example password for demo
+    wordlist = "wordlist.txt"
+
+    print("\n🔍 Starting brute-force attack simulation...\n")
+    try:
+        with open(wordlist, "r") as f:
+            for password in f:
+                password = password.strip()
+                print(f"Trying password: {password}")
+                time.sleep(0.2)  # Slow down for simulation
+                if password == correct_password:
+                    print(f"\n✅ Password found! Username: {target_user}, Password: {password}")
+                    return
+        print("\n❌ Password not found in wordlist.")
+    except FileNotFoundError:
+        print("[ERROR] wordlist.txt not found.")
+
+
+import sys
+from modules import port_scanner, brute_forcer
+
+def menu():
+    print("\n=== Penetration Testing Toolkit ===")
+    print("1. Port Scanner")
+    print("2. Brute-Force Attack Simulation")
+    print("3. Exit")
+
+while True:
+    menu()
+    choice = input("\nChoose an option: ")
+    
+    if choice == "1":
+        port_scanner.run()
+    elif choice == "2":
+        brute_forcer.run()
+    elif choice == "3":
+        print("Exiting Toolkit. Goodbye!")
+        sys.exit()
+    else:
+        print("Invalid choice. Try again.")
+
+
+
+12345
+password
+admin
+admin123
+qwerty
